@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cgz.user.mapper.UserMapper">
+
+    <select id="findAllUser" resultType="com.cgz.user.model.User">
+       select * from user
+    </select>
+
+    <update id="update">
+          update
+              user
+          set
+          sex=#{sex},
+          age=#{age},
+          name=#{name},
+          account=#{account},
+          password=#{password}
+          where
+          id=#{id}
+    </update>
+
+    <select id="loginUser" resultType="com.cgz.user.model.User">
+       select * from user
+       where 1=1
+        <if test="account!= null and account!= ''">
+              and account = #{account}
+        </if>
+        <if test="password!= null and password!= ''">
+              and password = #{password}
+        </if>
+    </select>
+
+</mapper>
