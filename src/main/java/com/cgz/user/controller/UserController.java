@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,6 +17,8 @@ import com.cgz.user.model.User;
 import com.cgz.user.service.UserService;
 import com.cgz.util.Result;
 
+import cn.hutool.captcha.CaptchaUtil;
+import cn.hutool.captcha.LineCaptcha;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -56,6 +59,37 @@ public class UserController {
 			logger.info("登录失败！");
 		}
 		return result;
+    }
+    
+    @ResponseBody
+    @RequestMapping(value="/getVerifyCode",method= RequestMethod.GET)
+    @ApiOperation(value="登录接口", notes="获取验证码")
+    public Result getVerifyCode(){
+    	Result result = null;
+    	String code = "";
+    	code = lineCaptchaCode();
+		result = new Result().successOk(code);
+		logger.info("验证码获取成功！");
+		return result;
+    }
+    
+    private String lineCaptchaCode() {
+    	//定义图形验证码的长和宽
+    	LineCaptcha lineCaptcha = CaptchaUtil.createLineCaptcha(200, 100);
+    	//图形验证码写出，可以写出到文件，也可以写出到流
+    	lineCaptcha.write("E:\\chineseGongfu\\cli4-vue2-springboot\\src\\assets\\validateCode\\line.png");
+    	//输出code
+    	return lineCaptcha.getCode();
+    	//验证图形验证码的有效性，返回boolean值
+//    	lineCaptcha.verify("1234");
+
+//    	//重新生成验证码
+//    	lineCaptcha.createCode();
+//    	lineCaptcha.write("E:\\\\chineseGongfu\\\\cli4-vue2-springboot\\\\validateCode\\\\line.png");
+//    	//新的验证码
+//    	logger.info(lineCaptcha.getCode());
+//    	//验证图形验证码的有效性，返回boolean值
+//    	lineCaptcha.verify("1234");
     }
     
     @ResponseBody
