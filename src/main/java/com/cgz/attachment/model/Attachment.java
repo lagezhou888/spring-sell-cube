@@ -1,5 +1,7 @@
 package com.cgz.attachment.model;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -25,6 +27,7 @@ public class Attachment extends Model {
     /**
      * 主键
      */
+    @TableId(type = IdType.AUTO)
     private Integer id;
 
     @ApiModelProperty("url")
@@ -33,5 +36,7 @@ public class Attachment extends Model {
     @ApiModelProperty("name")
     private String name;
 
+    @ApiModelProperty("userId")
+    private Integer userId;
 
 }

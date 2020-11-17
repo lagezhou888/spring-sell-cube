@@ -16,4 +16,8 @@ public interface IAttachmentService extends IService<Attachment> {
 
 	public Attachment upload(Attachment attachment);
 
+	public String getByUserId(Integer userId);
+
+	public Boolean deleteByUserId(Integer userId);
+
 }

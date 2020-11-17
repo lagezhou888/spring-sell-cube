@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cgz.attachment.mapper.Attachment">
+<mapper namespace="com.cgz.attachment.mapper.AttachmentMapper">
 
     <select id="selectList" resultType="com.cgz.attachment.model.Attachment">
        select * from attachment
@@ -15,4 +15,13 @@
           where
           id=#{id}
     </update>
+    
+    <select id="selectByUserId" resultType="com.cgz.attachment.model.Attachment">
+       select * from attachment where userId = #{userId}
+    </select>
+    
+    <delete id="deleteByUserId">
+       delete from attachment where userId = #{userId}
+    </delete>
+    
 </mapper>
