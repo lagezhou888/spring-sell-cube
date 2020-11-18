@@ -1,17 +1,19 @@
 package com.cgz.user.controller;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.cgz.user.model.User;
 import com.cgz.user.service.UserService;
@@ -40,6 +42,9 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private StringRedisTemplate redisTemplate;
 		
     @ResponseBody
     @RequestMapping(value="/login",method= RequestMethod.POST)
@@ -50,15 +55,39 @@ public class UserController {
         })
     public Result login(@RequestBody User user){
     	Result result = null;
-		User dbUser = userService.getLoginUser(user);
-		if(dbUser != null) {
-			result = new Result().successOk(dbUser);
-			logger.info("登录成功！");
+    	
+		//将登录信息存入redis
+		String templateValue = redisTemplate.opsForValue().get("userinfo");
+		if(StringUtils.isEmpty(templateValue)) {
+			User dbUser = userService.getLoginUser(user);
+			if(dbUser != null) {
+				String value = JSON.toJSONString(dbUser);
+				redisTemplate.opsForValue().set("userinfo", value);
+				result = new Result().successOk(dbUser);
+			}else {
+				result = new Result().fail(dbUser);
+			}
 		}else {
-			result = new Result().fail(dbUser);
-			logger.info("登录失败！");
+			String userInfo = redisTemplate.opsForValue().get("userinfo");
+			JSONObject userJson = JSON.parseObject(userInfo);
+			result = new Result().successOk(userJson);
 		}
+		logger.info("登录成功！");
 		return result;
+    }
+    
+    @ResponseBody
+    @RequestMapping(value="/modify",method= RequestMethod.PUT)
+    @ApiOperation(value="修改用户名", notes="输入用户名")
+    public Result modify(@RequestBody User user) {
+    	Result result = null;
+    	Boolean isOk = userService.updateById(user);
+    	if(isOk) {
+    		result = new Result().successOk(isOk);
+    	}else {
+    		result = new Result().fail(isOk);
+    	}
+    	return result;
     }
     
     @ResponseBody
