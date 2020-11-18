@@ -1,8 +1,11 @@
 package com.cgz.user.controller;
 
+import java.util.HashMap;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,6 +43,9 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Value("${server.servlet.context-path}")
+	private String contextPath;
 		
     @ResponseBody
     @RequestMapping(value="/login",method= RequestMethod.POST)
@@ -64,11 +70,14 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value="/getVerifyCode",method= RequestMethod.GET)
     @ApiOperation(value="登录接口", notes="获取验证码")
-    public Result getVerifyCode(){
+    public Result getVerifyCode(@RequestParam(value = "url") String url){
     	Result result = null;
     	String code = "";
     	code = lineCaptchaCode();
-		result = new Result().successOk(code);
+    	HashMap<String,String> map = new HashMap<String,String>();
+    	map.put("code",code);
+    	map.put("url", url + contextPath + "/getVerifyCode/line.png?time="+System.currentTimeMillis());
+		result = new Result().successOk(map);
 		logger.info("验证码获取成功！");
 		return result;
     }
@@ -77,7 +86,7 @@ public class UserController {
     	//定义图形验证码的长和宽
     	LineCaptcha lineCaptcha = CaptchaUtil.createLineCaptcha(200, 100);
     	//图形验证码写出，可以写出到文件，也可以写出到流
-    	lineCaptcha.write("E:\\chineseGongfu\\cli4-vue2-springboot\\src\\assets\\validateCode\\line.png");
+    	lineCaptcha.write("E:\\file\\validataCode\\line.png");
     	//输出code
     	return lineCaptcha.getCode();
     	//验证图形验证码的有效性，返回boolean值
