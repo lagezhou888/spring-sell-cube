@@ -1,6 +1,10 @@
 package com.cgz.user.model;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -23,31 +27,37 @@ public class User extends Model {
     /**
      * 主键
      */
+    @TableId(type = IdType.AUTO)
     private Integer id;
 
     /**
      * 姓名
      */
+    @ApiModelProperty("name")
     private String name;
 
     /**
      * 年龄
      */
+    @ApiModelProperty("age")
     private Integer age;
 
     /**
      * 性别
      */
-    private Boolean sex;
+    @ApiModelProperty("sex")
+    private String sex;
 
     /**
      * 账号
      */
+    @ApiModelProperty("account")
     private String account;
 
     /**
      * 密码
      */
+    @ApiModelProperty("password")
     private String password;
 
 

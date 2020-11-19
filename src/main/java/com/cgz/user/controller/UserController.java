@@ -1,6 +1,7 @@
 package com.cgz.user.controller;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.cgz.user.model.User;
@@ -63,22 +65,39 @@ public class UserController {
     public Result login(@RequestBody User user){
     	Result result = null;
 		//将登录信息存入redis
-		String templateValue = redisTemplate.opsForValue().get("userinfo");
+    	String templateValue = redisTemplate.opsForValue().get(user.getAccount());
 		if(StringUtils.isEmpty(templateValue)) {
 			User dbUser = userService.getLoginUser(user);
 			if(dbUser != null) {
 				String value = JSON.toJSONString(dbUser);
-				redisTemplate.opsForValue().set("userinfo", value);
+				redisTemplate.opsForValue().set(user.getAccount(), value);
 				result = new Result().successOk(dbUser);
 			}else {
 				result = new Result().fail(dbUser);
 			}
 		}else {
-			String userInfo = redisTemplate.opsForValue().get("userinfo");
+			String userInfo = redisTemplate.opsForValue().get(user.getAccount());
 			JSONObject userJson = JSON.parseObject(userInfo);
 			result = new Result().successOk(userJson);
 		}
 		logger.info("登录成功！");
+		return result;
+    }
+    
+    @ResponseBody
+    @RequestMapping(value="/register",method= RequestMethod.POST)
+    @ApiOperation(value="注册接口", notes="输入用户名密码")
+    public Result register(@RequestBody User user){
+    	Result result = null;
+		boolean isOk = userService.save(user);
+		if(isOk) {
+			String value = JSON.toJSONString(user);
+			redisTemplate.opsForValue().set(user.getAccount(), value);
+			result = new Result().successOk(user);
+		}else {
+			result = new Result().fail(user);
+		}
+		logger.info("注册成功！");
 		return result;
     }
     
