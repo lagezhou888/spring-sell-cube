@@ -89,6 +89,7 @@ public class UserController {
     @ApiOperation(value="注册接口", notes="输入用户名密码")
     public Result register(@RequestBody User user){
     	Result result = null;
+    	user.setName("您还没有昵称哦！");
 		boolean isOk = userService.save(user);
 		if(isOk) {
 			String value = JSON.toJSONString(user);

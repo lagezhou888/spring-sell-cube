@@ -29,6 +29,7 @@ import com.cgz.user.model.User;
 import com.cgz.user.service.UserService;
 import com.cgz.util.Result;
 
+import cn.hutool.system.SystemUtil;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -74,12 +75,12 @@ public class AttachmentController {
 	public Result select(@PathVariable("userId") Integer userId) {
     	Result result = null;
     	String url = attachmentService.getByUserId(userId);
-    	if(url != null) {
-    		result = new Result().successOk(url);
-			logger.info("上传成功！");
+    	if(url != null && url != "") {
+    		result = new Result().successOk(url + "?time=" + System.currentTimeMillis());
+			logger.info("头像查询成功！");
     	}else {
-    		result = new Result().fail(url);
-			logger.info("上传成功！");
+    		result = new Result().successOk("");
+			logger.info("没有头像！");
     	}
     	return result;
 	}
