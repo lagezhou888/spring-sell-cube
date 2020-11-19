@@ -1,11 +1,17 @@
 package com.cgz.conf;
 
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
+import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
+import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class GeneratorCodeConfig {
@@ -34,9 +40,16 @@ public class GeneratorCodeConfig {
         gc.setOutputDir(projectPath + "/src/main/java");
         gc.setAuthor("caogzh");
         gc.setOpen(false);
+        gc.setFileOverride(true); //是否覆盖 
+        gc.setActiveRecord(false);// 不需要ActiveRecord特性的请改为false 
+        gc.setMapperName("%sMapper");//设置生成map 
+        gc.setEnableCache(false);// XML 二级缓存 
+        gc.setBaseResultMap(true);// XML ResultMap 
+        gc.setBaseColumnList(true);// XML columList 
         //实体属性 Swagger2 注解
-        gc.setSwagger2(false);
+        gc.setSwagger2(true);
         mpg.setGlobalConfig(gc);
+       
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
@@ -57,29 +70,29 @@ public class GeneratorCodeConfig {
         mpg.setPackageInfo(pc);
 
         // 自定义配置
-//        InjectionConfig cfg = new InjectionConfig() {
-//            @Override
-//            public void initMap() {
-//                // to do nothing
-//            }
-//        };
+        InjectionConfig cfg = new InjectionConfig() {
+            @Override
+            public void initMap() {
+                // to do nothing
+            }
+        };
 
         // 如果模板引擎是 freemarker
-//        String templatePath = "/templates/mapper.xml.ftl";
+        String templatePath = "/templates/mapper.xml.ftl";
         // 如果模板引擎是 velocity
         // String templatePath = "/templates/mapper.xml.vm";
 
         // 自定义输出配置
-//        List<FileOutConfig> focList = new ArrayList<>();
+        List<FileOutConfig> focList = new ArrayList<>();
         // 自定义配置会被优先输出
-//        focList.add(new FileOutConfig(templatePath) {
-//            @Override
-//            public String outputFile(TableInfo tableInfo) {
-//                // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-//                return projectPath + "/src/main/resources/mapper/" + pc.getModuleName()
-//                        + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
-//            }
-//        });
+        focList.add(new FileOutConfig(templatePath) {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
+                return projectPath + "/src/main/resources/mapper/" + pc.getModuleName()
+                        + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
+            }
+        });
         /*
         cfg.setFileCreate(new IFileCreate() {
             @Override
@@ -90,8 +103,8 @@ public class GeneratorCodeConfig {
             }
         });
         */
-//        cfg.setFileOutConfigList(focList);
-//        mpg.setCfg(cfg);
+        cfg.setFileOutConfigList(focList);
+        mpg.setCfg(cfg);
 
         // 配置模板
         TemplateConfig templateConfig = new TemplateConfig();
