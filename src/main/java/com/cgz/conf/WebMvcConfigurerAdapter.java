@@ -1,0 +1,20 @@
+package com.cgz.conf;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+@Configuration
+public class WebMvcConfigurerAdapter implements WebMvcConfigurer{
+	
+	@Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/upload/**").addResourceLocations("file:E:/file/");
+        registry.addResourceHandler("/getVerifyCode/**").addResourceLocations("file:E:/file/validataCode/");
+    }
+
+	public static void main(String[] args) {
+			
+	}
+
+}
