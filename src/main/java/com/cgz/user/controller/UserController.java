@@ -2,6 +2,10 @@ package com.cgz.user.controller;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,13 +24,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.cgz.conf.JWTUtil;
 import com.cgz.user.model.User;
 import com.cgz.user.service.UserService;
 import com.cgz.util.Result;
 
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.LineCaptcha;
+import cn.hutool.http.HttpResponse;
+import cn.hutool.http.server.HttpServerResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -62,7 +70,7 @@ public class UserController {
             @ApiImplicitParam(paramType="query", name = "account", value = "账号", required = true, dataType = "String"),
             @ApiImplicitParam(paramType="query", name = "password", value = "旧密码", required = true, dataType = "String")
         })
-    public Result login(@RequestBody User user){
+    public Result login(@RequestBody User user,HttpServletResponse response ) throws Exception{
     	Result result = null;
 		//将登录信息存入redis
     	String templateValue = redisTemplate.opsForValue().get(user.getAccount());
@@ -71,6 +79,15 @@ public class UserController {
 			if(dbUser != null) {
 				String value = JSON.toJSONString(dbUser);
 				redisTemplate.opsForValue().set(user.getAccount(), value);
+		        Map<String, String> map = new HashMap<>();
+		        map.put("userId", dbUser.getId().toString());
+		        String token = JWTUtil.getToken(map);//颁发token
+		        // DecodedJWT verify = JWTUtil.verify(token);//解析token
+		        logger.info("token认证：" + token);
+		        Cookie cookie = new Cookie("token", token);       
+		        cookie.setPath("/");         
+		        response.addCookie(cookie);
+		        response.addHeader("token", token);
 				result = new Result().successOk(dbUser);
 			}else {
 				result = new Result().fail(dbUser);
@@ -78,6 +95,17 @@ public class UserController {
 		}else {
 			String userInfo = redisTemplate.opsForValue().get(user.getAccount());
 			JSONObject userJson = JSON.parseObject(userInfo);
+	        Map<String, String> map = new HashMap<>();
+	        map.put("userId", userJson.getString("id"));
+	        String token = JWTUtil.getToken(map);//颁发token
+	        logger.info("token认证：" + token);
+	        // DecodedJWT verify = JWTUtil.verify(token);//解析token
+	        // logger.info(verify.getClaim("userId").asString());
+	                        
+	        Cookie cookie = new Cookie("token", token);       
+	        cookie.setPath("/");         
+	        response.addCookie(cookie);
+	        response.addHeader("token", token);
 			result = new Result().successOk(userJson);
 		}
 		logger.info("登录成功！");

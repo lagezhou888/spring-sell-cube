@@ -72,7 +72,7 @@ public class AttachmentController {
     @ResponseBody
     @RequestMapping(value="/select/{userId}",method= RequestMethod.GET)
     @ApiOperation(value="查询", notes="根据userId查询图片")
-	public Result select(@PathVariable("userId") Integer userId) {
+	public Result select(@PathVariable("userId") Integer userId,HttpServletRequest request) {
     	Result result = null;
     	String url = attachmentService.getByUserId(userId);
     	if(url != null && url != "") {

@@ -1,6 +1,7 @@
 package com.cgz.conf;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -13,6 +14,16 @@ public class WebMvcConfigurerAdapter implements WebMvcConfigurer{
         registry.addResourceHandler("/getVerifyCode/**").addResourceLocations("file:E:/file/validataCode/");
     }
 
+   @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+
+        registry.addInterceptor(new JWTInterceptor())
+        .addPathPatterns("/**")
+        .excludePathPatterns("/userController/login")
+        .excludePathPatterns("/upload/**")
+        .excludePathPatterns("/getVerifyCode/**");
+    }
+	   
 	public static void main(String[] args) {
 			
 	}

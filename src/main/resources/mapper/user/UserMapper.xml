@@ -18,7 +18,8 @@
           where
           id=#{id}
     </update>
-
+    
+	<!-- useCache可以禁用二级缓存 -->
     <select id="loginUser" resultType="com.cgz.user.model.User">
        select * from user
        where 1=1
