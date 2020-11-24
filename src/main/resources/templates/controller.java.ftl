@@ -98,9 +98,9 @@ public class ${table.controllerName} {
          Result result = new Result();
          Boolean isOk = this.${table.serviceImplName?uncap_first}.save(${entity?uncap_first});
          if (!isOk) {
-              return result.successOk(isOk);
+              return result.successOk(${entity?uncap_first});
          } else {
-              return result.successOk(isOk);
+              return result.fail(${entity?uncap_first});
          }
      }
 
