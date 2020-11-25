@@ -159,6 +159,16 @@ public class UserController {
 		return result;
     }
     
+    @ResponseBody
+    @RequestMapping(value="/list",method= RequestMethod.GET)
+    @ApiOperation(value="查询接口", notes="查询所有用户")
+    public Result getUserList(){
+    	Result result = new Result();
+    	Integer count = userService.getUserList();
+    	result.successOk(count);
+		return result;
+    }
+    
     private String lineCaptchaCode() {
     	//定义图形验证码的长和宽
     	LineCaptcha lineCaptcha = CaptchaUtil.createLineCaptcha(200, 100);

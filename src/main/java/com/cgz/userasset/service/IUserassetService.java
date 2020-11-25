@@ -26,4 +26,6 @@ public interface IUserassetService extends IService<Userasset> {
 
      IPage<Userasset>  queryPage(Page page, @Param("et") Userasset userasset);
 
+	 public List<Userasset> selectByUserId(@Param("et") String userId);
+
     }

@@ -1,6 +1,9 @@
 package com.cgz.user.service;
 
 import com.cgz.user.model.User;
+
+import java.util.List;
+
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -14,5 +17,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface UserService extends IService<User> {
 
 	public User getLoginUser(User user);
+
+	public Integer getUserList();
 
 }
