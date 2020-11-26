@@ -11,7 +11,7 @@
  Target Server Version : 80021
  File Encoding         : 65001
 
- Date: 24/11/2020 19:41:02
+ Date: 26/11/2020 20:13:10
 */
 
 SET NAMES utf8mb4;
@@ -27,7 +27,15 @@ CREATE TABLE `attachment`  (
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `userId` int(0) NULL DEFAULT NULL COMMENT '用户ID',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 54 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 62 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of attachment
+-- ----------------------------
+INSERT INTO `attachment` VALUES (55, 'http://172.20.10.73:8080/api/upload/8d32e1ea-bf27-4098-98c6-f83c0a35e53c.jpg', '8d32e1ea-bf27-4098-98c6-f83c0a35e53c.jpg', 2);
+INSERT INTO `attachment` VALUES (57, 'http://172.20.10.73:8080/api/upload/51daee09-f730-4834-a689-fd908c03bd4d.jpg', '51daee09-f730-4834-a689-fd908c03bd4d.jpg', 1);
+INSERT INTO `attachment` VALUES (60, 'http://172.20.10.73:8080/api/upload/d7ed7966-e989-4c65-8561-3bd0cb66e356.png', 'd7ed7966-e989-4c65-8561-3bd0cb66e356.png', 4);
+INSERT INTO `attachment` VALUES (61, 'http://172.20.10.73:8080/api/upload/8de41d70-f739-4338-844f-cfb5c42074e1.png', '8de41d70-f739-4338-844f-cfb5c42074e1.png', 5);
 
 -- ----------------------------
 -- Table structure for business
@@ -41,7 +49,12 @@ CREATE TABLE `business`  (
   `receivedNum` int(0) NULL DEFAULT NULL COMMENT '已收量',
   `creditRating` varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '信用等级',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of business
+-- ----------------------------
+INSERT INTO `business` VALUES (1, '1', '1', 1, 1, '1');
 
 -- ----------------------------
 -- Table structure for config
@@ -52,6 +65,11 @@ CREATE TABLE `config`  (
   `countDownFinishTime` datetime(0) NULL DEFAULT NULL COMMENT '倒计时结束时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of config
+-- ----------------------------
+INSERT INTO `config` VALUES (1, '2020-11-30 13:46:47');
 
 -- ----------------------------
 -- Table structure for user
@@ -65,20 +83,39 @@ CREATE TABLE `user`  (
   `account` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of user
+-- ----------------------------
+INSERT INTO `user` VALUES (1, '曹广州', 30, '1', 'caogzh', '1');
+INSERT INTO `user` VALUES (4, '牟强', 24, '1', 'muq', '1');
+INSERT INTO `user` VALUES (5, '李智', 27, '1', 'liz', '1');
 
 -- ----------------------------
 -- Table structure for userasset
 -- ----------------------------
 DROP TABLE IF EXISTS `userasset`;
 CREATE TABLE `userasset`  (
-  `id` int(0) NOT NULL COMMENT '主键',
+  `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `userId` int(0) NULL DEFAULT NULL COMMENT '用户ID',
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '水果名称',
   `isChecked` varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '是否种植',
   `selectId` int(0) NULL DEFAULT NULL COMMENT '选择种植的水果种类ID',
   `selectName` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '选择种植的水果种类名称',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 53 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of userasset
+-- ----------------------------
+INSERT INTO `userasset` VALUES (45, 4, '苹果', '1', 1, '嘎啦');
+INSERT INTO `userasset` VALUES (46, 4, '苹果', '1', 2, '红将军');
+INSERT INTO `userasset` VALUES (47, 4, '苹果', '1', 3, '红富士');
+INSERT INTO `userasset` VALUES (48, 5, '樱桃', '1', 1, '枣红');
+INSERT INTO `userasset` VALUES (49, 5, '樱桃', '1', 2, '大紫');
+INSERT INTO `userasset` VALUES (50, 5, '樱桃', '1', 8, '萨米脱');
+INSERT INTO `userasset` VALUES (51, 1, '苹果', '1', 1, '嘎啦');
+INSERT INTO `userasset` VALUES (52, 1, '樱桃', '1', 1, '枣红');
 
 SET FOREIGN_KEY_CHECKS = 1;
