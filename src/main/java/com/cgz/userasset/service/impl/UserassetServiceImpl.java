@@ -50,7 +50,7 @@ public class UserassetServiceImpl extends ServiceImpl<UserassetMapper, Userasset
     @Override
     public IPage<Userasset> queryPage(Page page, @Param("et") Userasset userasset) {
         return userassetMapper.queryPage(page,userasset);
-        }
+    }
 
 	@Override
 	public List<Userasset> selectByUserId(String userId) {
@@ -59,4 +59,9 @@ public class UserassetServiceImpl extends ServiceImpl<UserassetMapper, Userasset
 		List<Userasset> list = userassetMapper.selectByMap(columnMap);
 		return list;
 	}
-    }
+
+	@Override
+	public List<Map<String, Object>> getCountByName(String type) {
+		return userassetMapper.selectByName(type);
+	}
+}

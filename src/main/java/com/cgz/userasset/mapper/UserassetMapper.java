@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -26,5 +27,6 @@ public interface UserassetMapper extends BaseMapper<Userasset> {
       List<Userasset> selectGetAll(@Param("et") Userasset userasset);
 
       IPage<Userasset> queryPage(Page page, @Param("et") Userasset userasset);
-
+  
+      List<Map<String,Object>> selectByName(String name);
     }

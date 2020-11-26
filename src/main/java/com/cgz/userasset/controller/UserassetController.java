@@ -33,8 +33,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import javax.servlet.http.HttpServletRequest;
 import io.swagger.annotations.Api;
 
-import org.springframework.web.bind.annotation.RestController;
-
 /**
  * <p>
  *  前端控制器
@@ -94,6 +92,61 @@ public class UserassetController {
       List<Userasset> userassetList = userassetService.selectByUserId(userId);
       return result.successOk(userassetList);
    }
+    
+    /**
+     * <p>
+     * Description: 获取图表数据
+     * </p>
+     */
+    @SuppressWarnings("unchecked")
+	@ApiOperation(value = "查询接口", notes = "获取图表数据")
+    @RequestMapping(value="/getChartData",method= RequestMethod.POST)
+    public Result getChartData(@RequestBody Map<String,Object> model) {
+    	Result result = null;
+    	List<Map<String,Object>> chartData = new ArrayList<Map<String,Object>>();
+//    	{list=[{id=1, label=枣红, value=枣红}, 
+//    	 {id=2, label=大紫, value=大紫}, 
+//    	 {id=3, label=红灯, value=红灯}, 
+//    	 {id=4, label=拉宾斯, value=拉宾斯}, 
+//    	 {id=5, label=美早, value=美早}, 
+//    	 {id=6, label=水晶, value=水晶}, 
+//    	 {id=7, label=黄灯, value=黄灯}, 
+//    	 {id=8, label=萨米脱, value=萨米脱}], 
+//    	  columns=[品种, 户数]}
+    	//[{num=2, selectName=枣红}, {num=1, selectName=大紫}, {num=1, selectName=萨米脱}]
+    	List<String> columns = (List<String>) model.get("columns");
+    	List<Map<String,String>> list = (List<Map<String, String>>) model.get("list");
+    	String type = (String) model.get("type");
+    	List<Map<String,Object>> dbList = userassetService.getCountByName(type);
+    	
+    	
+		List<Map<String,Object>> listMap = new ArrayList<>();
+    	list.stream().forEach(item -> {
+    		Map<String,Object> map = new HashMap<String,Object>();
+    		for(Map<String,Object> temp : dbList) {
+    			if(temp.get("selectName").equals(item.get("value"))) {
+    				map.put("name", temp.get("selectName"));
+    				map.put("value", temp.get("num"));
+    				break;
+    			}else {
+    	    		map.put("name", item.get("value"));
+    				map.put("value", 0);
+    			}
+    		}
+    		listMap.add(map);
+    	});
+    	
+    	List<Map<String,Object>> resultMap = new ArrayList<>();
+    	listMap.stream().forEach(item -> {
+    		Map<String,Object> map = new HashMap<String,Object>();
+    		map.put("品种", item.get("name"));
+    		map.put("户数", item.get("value"));
+    		resultMap.add(map);
+    	});
+    	logger.info(JSON.toJSONString(resultMap));
+    	result = new Result().successOk(resultMap);
+    	return result;
+    }
 
 
 

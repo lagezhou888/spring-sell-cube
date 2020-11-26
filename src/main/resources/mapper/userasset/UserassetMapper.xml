@@ -69,4 +69,9 @@
                     </if>
         </where>
     </select>
+    
+    <select id="selectByName" resultType="java.util.Map" >
+        SELECT selectName,count(*) as num FROM userasset 
+        where name = #{name} GROUP BY selectName
+    </select>
 </mapper>

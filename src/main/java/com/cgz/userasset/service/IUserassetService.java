@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -27,5 +28,7 @@ public interface IUserassetService extends IService<Userasset> {
      IPage<Userasset>  queryPage(Page page, @Param("et") Userasset userasset);
 
 	 public List<Userasset> selectByUserId(@Param("et") String userId);
+
+	 List<Map<String, Object>> getCountByName(String type);
 
     }
