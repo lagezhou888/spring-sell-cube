@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author caogzh
- * @since 2020-11-19
+ * @since 2020-11-28
  */
 @RestController
 @RequestMapping("/business/business")
@@ -50,11 +50,11 @@ public class BusinessController {
       @ApiOperation(value = "分页查询接口", notes = "分页接口")
       @GetMapping(value = "/listPage")
       public Result queryPageList( Business business,
-                @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
+                @RequestParam(name="pageNum", defaultValue="1") Integer pageNum,
                 @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
                 HttpServletRequest req) {
                 Result result = new Result();
-                Page<Business> page = new Page<Business>(pageNo, pageSize);
+                Page<Business> page = new Page<Business>(pageNum, pageSize);
                             //自定义getAll接口
                 IPage<Business > pageList=this.businessServiceImpl.queryPage(page,business);
                  return result.successOk(pageList);
@@ -80,9 +80,9 @@ public class BusinessController {
          Result result = new Result();
          Boolean isOk = this.businessServiceImpl.save(business);
          if (!isOk) {
-              return result.successOk(isOk);
+              return result.successOk(business);
          } else {
-              return result.successOk(isOk);
+              return result.fail(business);
          }
      }
 

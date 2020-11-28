@@ -6,20 +6,28 @@
         <resultMap id="BaseResultMap" type="com.cgz.business.model.Business">
                     <id     column="id" property="id"/>
                     <result column="name" property="name"/>
+                    <result column="age" property="age"/>
                     <result column="phone" property="phone"/>
+                    <result column="pinyin" property="pinyin"/>
                     <result column="advanceNum" property="advanceNum"/>
                     <result column="receivedNum" property="receivedNum"/>
-                    <result column="creditRating" property="creditRating"/>
+                    <result column="tag" property="tag"/>
+                    <result column="isAcquisition" property="isAcquisition"/>
+                    <result column="imgUrl" property="imgUrl"/>
         </resultMap>
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
                 s.id,
                 s.name,
+                s.age,
                 s.phone,
+                s.pinyin,
                 s.advanceNum,
                 s.receivedNum,
-                s.creditRating
+                s.tag,
+                s.isAcquisition,
+                s.imgUrl
         </sql>
 
     <select id="queryPage" resultMap="BaseResultMap" >
@@ -31,8 +39,14 @@
                     <if test="et.name != null and ''!= et.name">
                         and s.name = #{et.name}
                     </if>
+                    <if test="et.age != null and ''!= et.age">
+                        and s.age = #{et.age}
+                    </if>
                     <if test="et.phone != null and ''!= et.phone">
                         and s.phone = #{et.phone}
+                    </if>
+                    <if test="et.pinyin != null and ''!= et.pinyin">
+                        and s.pinyin = #{et.pinyin}
                     </if>
                     <if test="et.advanceNum != null and ''!= et.advanceNum">
                         and s.advanceNum = #{et.advanceNum}
@@ -40,8 +54,14 @@
                     <if test="et.receivedNum != null and ''!= et.receivedNum">
                         and s.receivedNum = #{et.receivedNum}
                     </if>
-                    <if test="et.creditRating != null and ''!= et.creditRating">
-                        and s.creditRating = #{et.creditRating}
+                    <if test="et.tag != null and ''!= et.tag">
+                        and s.tag = #{et.tag}
+                    </if>
+                    <if test="et.isAcquisition != null and ''!= et.isAcquisition">
+                        and s.isAcquisition = #{et.isAcquisition}
+                    </if>
+                    <if test="et.imgUrl != null and ''!= et.imgUrl">
+                        and s.imgUrl = #{et.imgUrl}
                     </if>
         </where>
     </select>
@@ -55,8 +75,14 @@
                     <if test="et.name != null and ''!= et.name">
                         and s.name = #{et.name}
                     </if>
+                    <if test="et.age != null and ''!= et.age">
+                        and s.age = #{et.age}
+                    </if>
                     <if test="et.phone != null and ''!= et.phone">
                         and s.phone = #{et.phone}
+                    </if>
+                    <if test="et.pinyin != null and ''!= et.pinyin">
+                        and s.pinyin = #{et.pinyin}
                     </if>
                     <if test="et.advanceNum != null and ''!= et.advanceNum">
                         and s.advanceNum = #{et.advanceNum}
@@ -64,8 +90,14 @@
                     <if test="et.receivedNum != null and ''!= et.receivedNum">
                         and s.receivedNum = #{et.receivedNum}
                     </if>
-                    <if test="et.creditRating != null and ''!= et.creditRating">
-                        and s.creditRating = #{et.creditRating}
+                    <if test="et.tag != null and ''!= et.tag">
+                        and s.tag = #{et.tag}
+                    </if>
+                    <if test="et.isAcquisition != null and ''!= et.isAcquisition">
+                        and s.isAcquisition = #{et.isAcquisition}
+                    </if>
+                    <if test="et.imgUrl != null and ''!= et.imgUrl">
+                        and s.imgUrl = #{et.imgUrl}
                     </if>
         </where>
     </select>
