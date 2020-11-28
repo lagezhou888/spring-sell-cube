@@ -11,7 +11,7 @@
  Target Server Version : 80021
  File Encoding         : 65001
 
- Date: 26/11/2020 20:13:10
+ Date: 28/11/2020 18:04:03
 */
 
 SET NAMES utf8mb4;
@@ -33,7 +33,6 @@ CREATE TABLE `attachment`  (
 -- Records of attachment
 -- ----------------------------
 INSERT INTO `attachment` VALUES (55, 'http://172.20.10.73:8080/api/upload/8d32e1ea-bf27-4098-98c6-f83c0a35e53c.jpg', '8d32e1ea-bf27-4098-98c6-f83c0a35e53c.jpg', 2);
-INSERT INTO `attachment` VALUES (57, 'http://172.20.10.73:8080/api/upload/51daee09-f730-4834-a689-fd908c03bd4d.jpg', '51daee09-f730-4834-a689-fd908c03bd4d.jpg', 1);
 INSERT INTO `attachment` VALUES (60, 'http://172.20.10.73:8080/api/upload/d7ed7966-e989-4c65-8561-3bd0cb66e356.png', 'd7ed7966-e989-4c65-8561-3bd0cb66e356.png', 4);
 INSERT INTO `attachment` VALUES (61, 'http://172.20.10.73:8080/api/upload/8de41d70-f739-4338-844f-cfb5c42074e1.png', '8de41d70-f739-4338-844f-cfb5c42074e1.png', 5);
 
@@ -44,17 +43,25 @@ DROP TABLE IF EXISTS `business`;
 CREATE TABLE `business`  (
   `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '商家名称',
+  `age` int(0) NULL DEFAULT NULL COMMENT '年龄',
   `phone` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '电话',
+  `pinyin` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '姓名拼音',
   `advanceNum` int(0) NULL DEFAULT NULL COMMENT '预定量',
   `receivedNum` int(0) NULL DEFAULT NULL COMMENT '已收量',
-  `creditRating` varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '信用等级',
+  `tag` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '信用标签',
+  `isAcquisition` bit(1) NULL DEFAULT NULL COMMENT '是否收购',
+  `imgUrl` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图片路径',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of business
 -- ----------------------------
-INSERT INTO `business` VALUES (1, '1', '1', 1, 1, '1');
+INSERT INTO `business` VALUES (1, '王五', 11, '13111111111', 'W', 2000, 1000, '靠谱', b'1', 'https://img.yzcdn.cn/vant/cat.jpeg');
+INSERT INTO `business` VALUES (2, '啊啊', 12, '1322222222', 'A', 3000, 1000, '黑心', b'1', 'https://img.yzcdn.cn/vant/cat.jpeg');
+INSERT INTO `business` VALUES (3, '王六', 13, '1333333333', 'W', 5000, 1000, '温柔', b'0', 'https://img.yzcdn.cn/vant/cat.jpeg');
+INSERT INTO `business` VALUES (4, '赵六', 14, '13444444444', 'Z', 3000, 1600, '给力', b'0', 'https://img.yzcdn.cn/vant/cat.jpeg');
+INSERT INTO `business` VALUES (5, '曹一', 30, '1543257561', 'C', 8000, 8000, '帅气逼人', b'1', 'https://img.yzcdn.cn/vant/cat.jpeg');
 
 -- ----------------------------
 -- Table structure for config
