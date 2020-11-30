@@ -26,6 +26,7 @@ public class AttachmentServiceImpl extends ServiceImpl<AttachmentMapper, Attachm
 	
 	@Override
 	public Attachment upload(Attachment attachment) {
+		attachmentMapper.deleteByUserId(attachment.getUserId());
 		attachmentMapper.insert(attachment);
 		return attachment;
 	}

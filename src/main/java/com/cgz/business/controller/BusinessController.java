@@ -25,13 +25,13 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2020-11-28
  */
 @RestController
-@RequestMapping("/business/business")
-@Api(value = "/business/business", description = "接口")
+@RequestMapping("/business")
+@Api(value = "/business", description = "接口")
 public class BusinessController {
 
 
 
-    /**
+    /**dd
         * <p>
         * Description: 服务
         * </p>
@@ -48,8 +48,9 @@ public class BusinessController {
         * </p>
         */
       @ApiOperation(value = "分页查询接口", notes = "分页接口")
-      @GetMapping(value = "/listPage")
-      public Result queryPageList( Business business,
+      @RequestMapping(value = "/listPage", method = RequestMethod.POST)
+      @ResponseBody
+      public Result queryPageList(@RequestBody Business business,
                 @RequestParam(name="pageNum", defaultValue="1") Integer pageNum,
                 @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
                 HttpServletRequest req) {

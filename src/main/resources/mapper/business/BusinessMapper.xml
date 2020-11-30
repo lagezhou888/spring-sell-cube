@@ -64,6 +64,7 @@
                         and s.imgUrl = #{et.imgUrl}
                     </if>
         </where>
+        order by s.pinyin asc
     </select>
 
     <select id="selectGetAll" resultType="com.cgz.business.model.Business" >

@@ -66,8 +66,9 @@ public class ${table.controllerName} {
         * </p>
         */
       @ApiOperation(value = "分页查询${table.comment!}接口", notes = "分页${table.comment!}接口")
-      @GetMapping(value = "/listPage")
-      public Result queryPageList( ${entity} ${entity?uncap_first},
+      @RequestMapping(value = "/listPage", method = RequestMethod.POST)
+      @ResponseBody
+      public Result queryPageList(@RequestBody ${entity} ${entity?uncap_first},
                 @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
                 @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
                 HttpServletRequest req) {
