@@ -60,5 +60,10 @@ public class User extends Model {
     @ApiModelProperty("password")
     private String password;
 
+    /**
+     * 电话
+     */
+    @ApiModelProperty("phone")
+    private String phone;
 
 }
